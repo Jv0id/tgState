@@ -69,7 +69,7 @@ func GetDownloadUrl(fileID string) (string, bool) {
 	log.Println("获取文件成功【" + fileID + "】")
 	// 获取文件下载链接
 	fileURL := file.Link(conf.BotToken)
-	return fileURL, true
+	return "https://disk.8void.com" + fileURL, true
 }
 func BotDo() {
 	bot, err := tgbotapi.NewBotAPI(conf.BotToken)
