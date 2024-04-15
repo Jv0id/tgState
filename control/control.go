@@ -57,6 +57,7 @@ func UploadImageAPI(w http.ResponseWriter, r *http.Request) {
 			res = conf.UploadResponse{
 				Code:    1,
 				Message: img,
+				ImgUrl:  strings.TrimSuffix(conf.BaseUrl, "/") + img,
 			}
 		}
 		w.Header().Set("Content-Type", "application/json")
@@ -273,6 +274,9 @@ func Middleware(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// 只有当密码设置并且不为"none"时，才进行检查
 		if conf.Pass != "" && conf.Pass != "none" {
+			if strings.HasPrefix(r.URL.Path, "/api") && r.URL.Query().Get("pass") == conf.Pass {
+				return
+			}
 			if cookie, err := r.Cookie("p"); err != nil || cookie.Value != conf.Pass {
 				http.Redirect(w, r, "/pwd", http.StatusSeeOther)
 				return
