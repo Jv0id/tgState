@@ -103,7 +103,7 @@ func BotDo() {
 				newMsg := tgbotapi.NewMessage(msg.Chat.ID, strings.TrimSuffix("https://disk.8void.com", "/")+"/d/"+fileID)
 				newMsg.ReplyToMessageID = msg.MessageID
 				if !strings.HasPrefix(conf.ChannelName, "@") {
-					if man, err := strconv.Atoi(conf.ChannelName); err == nil && newMsg.ReplyToMessageID == man {
+					if man, err := strconv.Atoi(conf.ChannelName); err == nil && int(msg.Chat.ID) == man {
 						bot.Send(newMsg)
 					}
 				} else {
